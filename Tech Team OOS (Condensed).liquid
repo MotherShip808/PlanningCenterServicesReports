@@ -8,7 +8,7 @@ CATEGORY NAME OF NOTES TO PRINT FOR COLUMN 1
 CATEGORY NAME OF NOTES TO PRINT FOR COLUMN 2
 {% assign notes_column_3_category = "Light Cue" %}
 TEAMS OF PEOPLE TO PRINT REPORTS FOR
-{% array categories_to_print = "Tech Team", "Sound Team" %}
+{% array categories_to_print = "Tech Team", "Tech Team - Sun 8:30a", "Tech Team - Sun 10:30a" %}
 POSITION TO PRINT (if you have one specific position outside of a TEAM you'd also like to print)
 {% assign position_to_print = "" %}
 NOTES TO PRINT WITH PLAN (any note fields you'd like to print with the whole plan)
@@ -49,8 +49,9 @@ PRINT ITEM TIMES
   {% for category in categories_to_print %}
     {% assign col_count = 0 %}
     <tr><td><span style="clear: both; margin-top: 5px; font-weight: bold; font-size: 12pt;">{{ category }}</span></td>
-    	{% for plan_person in plan.plan_people_not_declined %}					
-    		{% if (plan_person.category.name == category) or (plan_person.position == position_to_print)%}
+    	{% for plan_person in plan.plan_people_not_declined %}
+      		{% assign cat = plan_person.category.name | split: " - "%}
+    		{% if (cat[0] == category) or (plan_person.position == position_to_print)%}
       			{% if col_count > 5 %}
 				    </tr><tr><td>&nbsp;</td>
     				{% assign col_count = 0 %}
@@ -66,8 +67,9 @@ PRINT ITEM TIMES
 <!-- END ROSTER -->
   
   {% for category in categories_to_print %}						
-  {% for plan_person in plan.plan_people_not_declined %}					
-    {% if (plan_person.category.name == category) or (plan_person.position == position_to_print)%}
+  {% for plan_person in plan.plan_people_not_declined %}
+ 	{% assign cat = plan_person.category.name | split: " - "%}
+    {% if (cat[0] == category) or (plan_person.position == position_to_print)%}
        <!-- Print specific items for this position -->
            <div style="page-break-before: always;"></div>
 <table id="header" width="100%">
